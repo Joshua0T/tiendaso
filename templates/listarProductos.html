@@ -1,0 +1,61 @@
+{% extends "index.html" %}
+
+{% block encabezado %}
+    {% include "encabezado.html" %}
+{% endblock %}
+
+{% block menu %}
+    {% include "menu.html" %}
+{% endblock %}
+
+{% block contenido %}
+<script src="https://cdn.datatables.net/autofill/2.7.0/js/dataTables.autoFill.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"></script>
+<script>obtenerProductos()</script>
+    <div class="container mx-auto">
+        <div class="w-3/4 mx-auto">
+            <h3 class="text-center text-3xl font-bold mt-6 text-blue-600">LISTA DE PRODUCTOS</h3>
+            <a href="/agregar" class="block mt-4">
+                <button class="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded transition duration-300">Agregar</button>
+            </a>
+            <table id="tblProductos" class="min-w-full mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-lg">
+                <thead class="bg-blue-200">
+                    <tr class="text-center">
+                        <th class="border border-gray-300 px-4 py-2 text-blue-800">Código</th>
+                        <th class="border border-gray-300 px-4 py-2 text-blue-800">Nombre</th>
+                        <th class="border border-gray-300 px-4 py-2 text-blue-800">Precio</th>
+                        <th class="border border-gray-300 px-4 py-2 text-blue-800">Categoría</th>
+                        <th class="border border-gray-300 px-4 py-2 text-blue-800">Foto</th>
+                        <th class="border border-gray-300 px-4 py-2 text-blue-800">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="datosProductos">
+                    {% for producto in productos %}
+                    <tr class="text-center bg-white hover:bg-gray-100 transition duration-200">
+                        <td class="border border-gray-300 px-4 py-2">{{producto['codigo']}}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{producto['nombre']}}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-end">{{producto['precio']}}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{producto['categoria']}}</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <img src="../static/imagenes/{{producto['foto']}}" alt="" width="40" height="40" class="mx-auto rounded-full shadow">
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <a href="/consultar/{{producto['_id']}}" class="text-yellow-600 hover:text-yellow-800 transition duration-200">
+                                <i class="fa fa-refresh text-xl"></i>
+                            </a>
+                            <i class="fa fa-trash text-red-600 cursor-pointer text-xl hover:text-red-800 transition duration-200" onclick="eliminar('{{producto['_id']}}')"></i>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="text-center text-red-600 font-bold mt-4">{{mensaje}}</div>
+        </div>
+    </div>  
+{% endblock %}
+
+{% block piepagina %} 
+    {% include "piePagina.html" %} 
+{% endblock %}
+
+
